@@ -20,8 +20,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <test.h>
 #include "MKL25Z4.h"
-#include "test_cbfifo.h"
 #include "cbfifo.h"
 #include "UART.h"
 #include "command_processor.h"

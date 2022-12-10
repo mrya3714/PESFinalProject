@@ -1,2 +1,3 @@
-../source/test_cbfifo.c:14:5:test_cbfifo	544	static
-../source/test_cbfifo.c:154:6:test_cbfifo_str	2096	static
+../source/test_cbfifo.c:17:5:test_cbfifo	544	static
+../source/test_cbfifo.c:157:6:test_cbfifo_str	2096	static
+../source/test_cbfifo.c:383:6:test_leds	8	static

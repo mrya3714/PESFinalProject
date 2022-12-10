@@ -19,6 +19,7 @@
  *
  ********************************************************************************************************************/
 
+#include <test.h>
 #include "statemachine.h"
 #include "pwm_LED.h"
 #include "i2c.h"
@@ -26,7 +27,6 @@
 #include "sysclock.h"
 #include "switch.h"
 #include "Touch.h"
-#include "test_cbfifo.h"
 #include "cbfifo.h"
 #include "UART.h"
 #include "command_processor.h"
@@ -40,17 +40,18 @@ typedef enum
 	Zero_calibration,
     I2C_Read,
     User_input,
-	User_output,
-	User_feedback
+	User_output
 }lua_states;
 
 int count = 0;
 int init_flag = 0;                       //initialization flag
 int test_flag = 0;                       //testing flag
+int touch_flag = 0;                      //touch flag
+
+extern int flag1;                        //user input flag
 
 volatile lua_states next_state = Initialization;
 lua_states current_state;
-extern int flag1;
 
 void state_machine()
 {
@@ -61,7 +62,7 @@ void state_machine()
     case Initialization :
     current_state = Initialization;
     init();
-    if(init_flag == 1||init_flag == 3)
+    if(init_flag == 1)
       {
       printf("Principle of Embedded Software Final Project Submission\r\n\n");
       set_led_colour(1, 1, 0);
@@ -69,12 +70,17 @@ void state_machine()
       set_led_colour(0, 0, 0);
       next_state =Testing;
       }
+    else
+    {
+      set_led_colour(1, 0, 0);
+    }
     break;
 
     case Testing:
     test_cbfifo();
     test_cbfifo_str();
-    if(test_flag == 2)
+    test_leds();
+    if(test_flag == 3)
     {
     printf("Please touch the sensor for calibration\r\n\n");
     current_state = Testing;
@@ -85,7 +91,7 @@ void state_machine()
     case Zero_calibration :
     current_state = Zero_calibration;
     touch_cal();
-    if(init_flag == 2)
+    if(touch_flag == 1)
     {
     printf("Touch detected\r\n");
     next_state = User_input;
@@ -114,14 +120,6 @@ void state_machine()
     next_state = I2C_Read;
     break;
 
-    case User_feedback :
-    current_state = User_feedback;
-    if(init_flag == 3)
-    {
-    next_state = I2C_Read;
-    }
-    break;
-
   }
    delay(70);
  }
@@ -139,12 +137,13 @@ void init()
 	set_led_colour(1, 0, 0);							//Light red error LED
 	while (1)								            //not able to initialize mma
 	;
-	 }
+	}
 	init_flag = 1;
 }
 
-float calibrateAngle;
+float calibrated_angle;
 int value;
+
 void touch_cal()
 {
 	int check_touch = 0;
@@ -154,30 +153,29 @@ void touch_cal()
 	if(value>20)
 	   {
 	set_led_colour(1,1,1);
-    //printf("%d\r\n",value);
 	read_full();
-    calibrateAngle = convert_xyz_to_roll_pitch();
-	printf("Calibrated = %d degrees\r\n", (int)calibrateAngle);
-	init_flag = 2;
-	//set_led_colour(0,0,0);
+	calibrated_angle = convert_xyz_to_roll_pitch();
+	printf("Calibrated = %d degrees\r\n", (int)calibrated_angle);
+	touch_flag = 1;
 	   }
      }
 }
 
-float measuredAngle;
-float relativeAngle=0;
+float new_angle;
+float current_angle=0.0;
 extern int input_angle;
+
 void calculate()
 {
-measuredAngle = convert_xyz_to_roll_pitch();
+	new_angle = convert_xyz_to_roll_pitch();
 
 /*calculate relative angle wrt angle at calibration*/
-      relativeAngle = measuredAngle - calibrateAngle;
-	  if((int)relativeAngle>input_angle)
+	current_angle = new_angle - calibrated_angle;
+	  if((int)current_angle>input_angle)
 	      {
 	        set_led_colour(0,0,1);
 	      }
-	  else if((int)relativeAngle==input_angle)
+	  else if((int)current_angle==input_angle)
 	      {
 	        set_led_colour(0,1,0);
 	        printf("Please hold on and press the switch\r\n\n");
@@ -188,8 +186,6 @@ measuredAngle = convert_xyz_to_roll_pitch();
 	        delay(1000);
 	        break;
 	        }
-	        init_flag = 3;
-
 	      }
 	  else
 	      {
@@ -199,6 +195,6 @@ measuredAngle = convert_xyz_to_roll_pitch();
 
 void output()
 {
-	printf("Current angle = %d degrees\r\n\n\n", (int)relativeAngle);
+	printf("Current angle = %d degrees\r\n\n\n", (int)current_angle);
 
 }

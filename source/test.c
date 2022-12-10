@@ -4,8 +4,11 @@
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
-#include "test_cbfifo.h"
+#include <test.h>
 #include "cbfifo.h"
+#include "pwm_LED.h"
+#include "statemachine.h"
+#include "sysclock.h"
 
 extern test_flag;
 /*************************************************
@@ -372,8 +375,28 @@ bool test_cbfifo_str()
   assert(cbfifo_length(&rxb) == 33);
   assert(strncmp(buf1, str, 16) == 0);
 
-  printf("Passed all the test cases for CBFIFO\n\n\n\r");
+  printf("Passed all the test cases for CBFIFO\n\r");
   test_flag = 2;
   return 1;
 }
 
+void test_leds()
+{
+    set_led_colour(1,0,0);
+    delay(500);
+    set_led_off(true);
+    delay(100);
+
+    set_led_colour(0,0,1);
+    delay(500);
+    set_led_off(true);
+    delay(100);
+
+    set_led_colour(0,1,0);
+    delay(500);
+    set_led_off(true);
+    delay(100);
+
+    printf("Tested LEDs\n\n\n\r");
+    test_flag = 3;
+}

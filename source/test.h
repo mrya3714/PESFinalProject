@@ -38,5 +38,12 @@ int test_cbfifo();
  * @return		: none
  ******************************************************/
 void test_leds();
+/******************************************************
+ * @function	: function to test Touch sensor
+ *
+ * @parameters	: none
+ * @return		: none
+ ******************************************************/
+void test_TSI();
 #endif
 

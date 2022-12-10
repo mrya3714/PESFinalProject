@@ -1,3 +1,4 @@
-../source/test.c:32:5:test_cbfifo	544	static
-../source/test.c:172:6:test_cbfifo_str	2096	static
-../source/test.c:403:6:test_leds	8	static
+../source/test.c:33:5:test_cbfifo	544	static
+../source/test.c:173:6:test_cbfifo_str	2096	static
+../source/test.c:404:6:test_leds	8	static
+../source/test.c:434:6:test_TSI	16	static

@@ -24,6 +24,7 @@
 #include "pwm_LED.h"
 #include "statemachine.h"
 #include "sysclock.h"
+#include "Touch.h"
 
 extern int test_flag;
 /*************************************************
@@ -419,4 +420,38 @@ void test_leds()
 
     printf("Tested LEDs\n\n\n\r");
     test_flag = 3;
+    if(test_flag!=3)
+    {
+    	printf("LEDs test failed\n\n\n\r");
+    }
+}
+/******************************************************
+ * @function	: function to test touch sensor
+ *
+ * @parameters	: none
+ * @return		: none
+ ******************************************************/
+void test_TSI()
+{
+	 int value;
+	 value = TSI_scan();					                 //read the scan value
+	 if((value>=699) && (value<=900))	                    //if touched at left led is red
+	   {
+	    set_led_colour(1,0,0);
+	    printf("\nRED LED ON:Slider Value: %d\n",value);
+	   }
+	 if((value>=920) && (value<=1307))	                    //if touched at center LED is green
+	   {
+		 set_led_colour(0,1,0);
+         printf("\nGREEN LED ON:Slider Value: %d\n",value);
+	   }
+	 if(value>=1398)	                                   //if touched at right LED is blue
+	   {
+		 set_led_colour(0,0,1);
+	     printf("\nBLUE LED ON:Slider Value: %d\n",value);
+	   }
+	 else
+	 {
+		 printf("\nTSI test failed\n");
+	 }
 }

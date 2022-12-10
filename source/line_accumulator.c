@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include "cbfifo.h"
 #include "line_accumulator.h"
-#include "command_processor.h"
+
 
 extern cbfifo rx,tx;
 

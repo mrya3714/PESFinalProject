@@ -13,7 +13,7 @@
  *
  * @Credits for concepts and crafting: Lalit Pandit
  *
- * Description : contains 3 functions to initialise, set led on and set led off
+ * Description :  Description : I2C init,read, write byte
  *
  ********************************************************************************************************************/
 #ifndef i2c_H_

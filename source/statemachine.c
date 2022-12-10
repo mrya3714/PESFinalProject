@@ -15,8 +15,6 @@
  *
  * @Credits for concepts and crafting: Lalit Pandit
  *
- * Description : contains 3 functions to initialise, set led on and set led off
- *
  ********************************************************************************************************************/
 
 #include <test.h>
@@ -29,10 +27,10 @@
 #include "Touch.h"
 #include "cbfifo.h"
 #include "UART.h"
-#include "command_processor.h"
 #include "line_accumulator.h"
 #include "pwm_LED.h"
 
+/*states for levelling using accelerometer*/
 typedef enum
 {
 	Initialization,
@@ -43,7 +41,6 @@ typedef enum
 	User_output
 }lua_states;
 
-int count = 0;
 int init_flag = 0;                       //initialization flag
 int test_flag = 0;                       //testing flag
 int touch_flag = 0;                      //touch flag
@@ -52,7 +49,12 @@ extern int flag1;                        //user input flag
 
 volatile lua_states next_state = Initialization;
 lua_states current_state;
-
+/*************************************************
+ * @function	: function for state machine and api call
+ *
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
 void state_machine()
 {
  while(1)
@@ -61,26 +63,26 @@ void state_machine()
    {
     case Initialization :
     current_state = Initialization;
-    init();
-    if(init_flag == 1)
+    init();                                 //calls initialization function
+    if(init_flag == 1)                      //if successful yellow led will glow or red if unsuccessful
       {
       printf("Principle of Embedded Software Final Project Submission\r\n\n");
-      set_led_colour(1, 1, 0);
+      set_led_colour(1, 1, 0);               //red led
       delay(1000);
-      set_led_colour(0, 0, 0);
+      set_led_off(true);                     //turn off after 1 s
       next_state =Testing;
       }
     else
     {
-      set_led_colour(1, 0, 0);
+      set_led_colour(1, 0, 0);               //yellow led
     }
     break;
-
+/*NOTE : These are automated test cases fucntions, manual test cases functions are included in test.c*/
     case Testing:
-    test_cbfifo();
+    test_cbfifo();                          //test cbfifos
     test_cbfifo_str();
-    test_leds();
-    if(test_flag == 3)
+    test_leds();                            //test leds
+    if(test_flag == 3)                      //if the testing is successful user will be asked to calibrate using TSI
     {
     printf("Please touch the sensor for calibration\r\n\n");
     current_state = Testing;
@@ -90,7 +92,7 @@ void state_machine()
 
     case Zero_calibration :
     current_state = Zero_calibration;
-    touch_cal();
+    touch_cal();                         //calibrate the angle
     if(touch_flag == 1)
     {
     printf("Touch detected\r\n");
@@ -100,7 +102,7 @@ void state_machine()
 
     case User_input :
     current_state = User_input;
-    UserInput();
+    UserInput();                      //user will be asked to input desired angle
     if(flag1 == 1)
     {
     next_state = I2C_Read;
@@ -109,22 +111,27 @@ void state_machine()
 
     case I2C_Read:
     current_state = I2C_Read;
-    read_full();
-    calculate();
+    read_full();                     //i2c
+    calculate();                     //calculate the current angle w.r.t input angle
     next_state = User_output;
     break;
 
     case User_output :
     current_state = User_output;
-    output();
+    output();                        //display the output current angle
     next_state = I2C_Read;
     break;
 
   }
-   delay(70);
+   delay(70);                        //delay for visibility on terminal
  }
 }
-
+/*************************************************
+ * @function	: function to initialize leds, tsi, i2c, sysclock, UART
+ *
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
 void init()
 {
 	init_led();
@@ -143,7 +150,12 @@ void init()
 
 float calibrated_angle;
 int value;
-
+/*************************************************
+ * @function	: function to calibrate angle using touch slider
+ *
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
 void touch_cal()
 {
 	int check_touch = 0;
@@ -164,23 +176,28 @@ void touch_cal()
 float new_angle;
 float current_angle=0.0;
 extern int input_angle;
-
+/*************************************************
+ * @function	: function to calculate current angle and glow leds accordingly
+ *
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
 void calculate()
 {
 	new_angle = convert_xyz_to_roll_pitch();
 
-/*calculate relative angle wrt angle at calibration*/
+/*calculate current angle wrt angle at calibration*/
 	current_angle = new_angle - calibrated_angle;
-	  if((int)current_angle>input_angle)
+	  if((int)current_angle>input_angle)   //if current angle is greater than the input angle
 	      {
-	        set_led_colour(0,0,1);
+	        set_led_colour(0,0,1);         //blue led will glow
 	      }
-	  else if((int)current_angle==input_angle)
+	  else if((int)current_angle==input_angle) //if equal
 	      {
-	        set_led_colour(0,1,0);
-	        printf("Please hold on and press the switch\r\n\n");
+	        set_led_colour(0,1,0);          //green led
+	        printf("Hold on and press the switch\r\n\n");
 	        delay(1000);
-	      while(!button_pressed())
+	      while(!button_pressed())          //switch interrupt
 	        {
 	        printf("You have achieved the angle\r\n\n");
 	        delay(1000);
@@ -189,12 +206,19 @@ void calculate()
 	      }
 	  else
 	      {
-	       set_led_colour(1,0,0);
+	       set_led_colour(1,0,0);          //red led if the angle is less
 	      }
 }
+/*************************************************
+ * @function	: function to display on the terminal current angle
+ *
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
 
 void output()
 {
-	printf("Current angle = %d degrees\r\n\n\n", (int)current_angle);
+	printf("Current angle = %d degrees\r\n\n\n", (int)current_angle);  //display current angle
 
 }
+/*********************************************end*******************************************************************/

@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbfifo.h"
-#include "command_processor.h"
 
 /*********************************************macros****************************************************************/
 #define UART_OVERSAMPLEFACTOR 16   //oversampling factor 16

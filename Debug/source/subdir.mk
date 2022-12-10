@@ -7,7 +7,6 @@ C_SRCS += \
 ../source/Touch.c \
 ../source/UART.c \
 ../source/cbfifo.c \
-../source/command_processor.c \
 ../source/i2c.c \
 ../source/line_accumulator.c \
 ../source/main.c \
@@ -24,7 +23,6 @@ C_DEPS += \
 ./source/Touch.d \
 ./source/UART.d \
 ./source/cbfifo.d \
-./source/command_processor.d \
 ./source/i2c.d \
 ./source/line_accumulator.d \
 ./source/main.d \
@@ -41,7 +39,6 @@ OBJS += \
 ./source/Touch.o \
 ./source/UART.o \
 ./source/cbfifo.o \
-./source/command_processor.o \
 ./source/i2c.o \
 ./source/line_accumulator.o \
 ./source/main.o \
@@ -67,7 +64,7 @@ source/%.o: ../source/%.c source/subdir.mk
 clean: clean-source
 
 clean-source:
-	-$(RM) ./source/Touch.d ./source/Touch.o ./source/UART.d ./source/UART.o ./source/cbfifo.d ./source/cbfifo.o ./source/command_processor.d ./source/command_processor.o ./source/i2c.d ./source/i2c.o ./source/line_accumulator.d ./source/line_accumulator.o ./source/main.d ./source/main.o ./source/mma.d ./source/mma.o ./source/mtb.d ./source/mtb.o ./source/pwm_LED.d ./source/pwm_LED.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o ./source/statemachine.d ./source/statemachine.o ./source/switch.d ./source/switch.o ./source/sysclock.d ./source/sysclock.o ./source/test.d ./source/test.o
+	-$(RM) ./source/Touch.d ./source/Touch.o ./source/UART.d ./source/UART.o ./source/cbfifo.d ./source/cbfifo.o ./source/i2c.d ./source/i2c.o ./source/line_accumulator.d ./source/line_accumulator.o ./source/main.d ./source/main.o ./source/mma.d ./source/mma.o ./source/mtb.d ./source/mtb.o ./source/pwm_LED.d ./source/pwm_LED.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o ./source/statemachine.d ./source/statemachine.o ./source/switch.d ./source/switch.o ./source/sysclock.d ./source/sysclock.o ./source/test.d ./source/test.o
 
 .PHONY: clean-source
 

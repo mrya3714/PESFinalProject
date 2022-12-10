@@ -24,7 +24,6 @@
 #include "MKL25Z4.h"
 #include "cbfifo.h"
 #include "UART.h"
-#include "command_processor.h"
 #include "line_accumulator.h"
 #include "statemachine.h"
 #include "Touch.h"

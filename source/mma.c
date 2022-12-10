@@ -105,9 +105,9 @@ void read(void)
 	// sign extend byte to 16 bits - need to cast to signed since function
 	// returns uint8_t which is unsigned
 	acc_X = (int8_t) i2c_read_byte(MMA_ADDR, REG_XHI);
-	Delay(100);
+	delay(100);
 	acc_Y = (int8_t) i2c_read_byte(MMA_ADDR, REG_YHI);
-	Delay(100);
+	delay(100);
 	acc_Z = (int8_t) i2c_read_byte(MMA_ADDR, REG_ZHI);
 
 }

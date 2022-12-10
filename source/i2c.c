@@ -13,7 +13,7 @@
  *
  * @Credits for concepts and crafting: Lalit Pandit
  *
- * Description : contains 3 functions to initialise, set led on and set led off
+ * Description : I2C init,read, write byte
  *
  ********************************************************************************************************************/
 /*************************************headers and preprocessor directive********************************************/
@@ -70,7 +70,7 @@ void i2c_init(void)
 }
 
 /*************************************************
- * @function	: function to initialize
+ * @function	: function to send data
  *
  * @parameters	: none
  * @return		: none
@@ -117,7 +117,7 @@ void i2c_busy(void)
 	i2c_lock=1;
 }
 
-#pragma no_inline
+//#pragma no_inline
 void i2c_wait(void)
 {
 	lock_detect = 0;
@@ -140,7 +140,7 @@ void i2c_start()
 }
 
 //send device and register addresses
-#pragma no_inline
+//#pragma no_inline
 void i2c_read_setup(uint8_t dev, uint8_t address)
 {
 	I2C0->D = dev;			                              //send dev address
@@ -221,7 +221,7 @@ uint8_t i2c_read_byte(uint8_t dev, uint8_t address)
 
 /*Function to write a byte of data to I2C device register*/
 //using 7bit addressing writes a byte data to dev:address
-#pragma no_inline
+//#pragma no_inline
 void i2c_write_byte(uint8_t dev, uint8_t address, uint8_t data)
 {
 

@@ -9,7 +9,7 @@ source/statemachine.o source/statemachine.d: ../source/statemachine.c \
  C:\Users\mruna\PESWORKSPACE\Final_Project\CMSIS/system_MKL25Z4.h \
  ../source/i2c.h ../source/mma.h ../source/sysclock.h ../source/switch.h \
  ../source/Touch.h ../source/cbfifo.h ../source/UART.h \
- ../source/command_processor.h ../source/line_accumulator.h
+ ../source/line_accumulator.h
 C:\Users\mruna\PESWORKSPACE\Final_Project\source/test.h:
 ../source/statemachine.h:
 ../source/pwm_LED.h:
@@ -26,5 +26,4 @@ C:\Users\mruna\PESWORKSPACE\Final_Project\CMSIS/system_MKL25Z4.h:
 ../source/Touch.h:
 ../source/cbfifo.h:
 ../source/UART.h:
-../source/command_processor.h:
 ../source/line_accumulator.h:

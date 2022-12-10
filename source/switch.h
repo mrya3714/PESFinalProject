@@ -9,7 +9,7 @@
  *
  * @Credits for concepts and crafting: Lalit Pandit
  *
- * Description : contains 3 functions
+ *  Description : contains 3 functions for switch interrupt
  *
  ********************************************************************************************************************/
 

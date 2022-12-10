@@ -17,49 +17,51 @@ Project proposal design overview
 
 <img width="519" alt="image" src="https://user-images.githubusercontent.com/112549892/206834999-3ad7acd3-a0c5-4f4b-a8df-993a08584770.png">
 
+Testing : Automated tests are done for cbfifo and leds. And manual tests for Touch sensor and accelerometer(present in test.c and mma.c files)
+
 1. If the initialization of the sensor and code fails, red led shall glow.
-   WORKING: YES
+   WORKING: YES - if the initialization fails red led will glow
    
    
 2. On successful initialization, led color shall change from red to yellow.
-   WORKING: YES
+   WORKING: YES - yellow led glows and testing is done for cbfifo and leds
    ![1670649522832](https://user-images.githubusercontent.com/112549892/206835086-8d52a832-76df-46d3-ba11-c4226804fc60.jpg)
    
    ![1670649522849](https://user-images.githubusercontent.com/112549892/206835090-5095c680-9694-4dae-944d-551f69791259.jpg)
 
    
 3. For 0° calibration touch sensor shall be used and white led shall glow.
-   WORKING: YES
+   WORKING: YES - white led glows 
    
    ![1670649522818](https://user-images.githubusercontent.com/112549892/206835107-d2029e24-dd55-432e-9559-bb2948858ba2.jpg)
 
    
 4. After the calibration, user will be asked to input the desired angle.
-   WORKING: YES
+   WORKING: YES - user is asked for the angle
    
    ![1670649522807](https://user-images.githubusercontent.com/112549892/206835115-c9db5cc8-522d-4b16-ada4-6f69966e4292.jpg)
    
    ![1670649522796](https://user-images.githubusercontent.com/112549892/206835124-387f4dde-584b-4ed8-8096-3fc7f2113232.jpg)
 
 5. If the angle is less than the desired angle then, red led shall glow.
-   WORKING: YES
+   WORKING: YES - if current angle is less than the input angle red led glows
    
    ![1670649522783](https://user-images.githubusercontent.com/112549892/206835133-742464f3-0491-4797-bd46-09624c08137a.jpg)
 
 6. If the angle is more than the desired angle then, blue led shall glow.
-   WORKING: YES
+   WORKING: YES - if current angle is more than the input angle blue led glows
    
    ![1670649522762](https://user-images.githubusercontent.com/112549892/206835142-9730bd35-2137-44d4-adff-71c1ae3ef207.jpg)
 
    
 7. Once the desired angle is achieved, green led shall glow.
-   WORKING: YES
+   WORKING: YES - if current angle is equal to the input angle green led glows
    
    ![1670649522774](https://user-images.githubusercontent.com/112549892/206835144-35e358c6-53d9-4125-9272-34cfb1e52742.jpg)
 
    
 8. Push button shall be used to generate an interrupt for the feedback to the user.
-   WORKING: YES
+   WORKING: YES - gpio interrupt is generated and feedback is given on the terminal and process continues
    
    ![1670649990026](https://user-images.githubusercontent.com/112549892/206835154-be6c76d2-0233-4603-a332-da132e86596e.jpg)
    

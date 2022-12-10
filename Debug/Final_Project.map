@@ -329,6 +329,11 @@ Discarded input sections
  .data          0x00000000        0x0 ./source/mma.o
  .bss           0x00000000        0x0 ./source/mma.o
  .text.read     0x00000000       0x58 ./source/mma.o
+ .bss.tilt      0x00000000        0x4 ./source/mma.o
+ .rodata.test_MMA.str1.4
+                0x00000000      0x101 ./source/mma.o
+ .text.test_MMA
+                0x00000000       0x98 ./source/mma.o
  .debug_macro   0x00000000      0xa84 ./source/mma.o
  .debug_macro   0x00000000       0x3f ./source/mma.o
  .debug_macro   0x00000000       0x10 ./source/mma.o
@@ -2634,7 +2639,7 @@ END GROUP
 OUTPUT(Final_Project.axf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000     0x7115
+.debug_info     0x00000000     0x714d
  .debug_info    0x00000000      0xe16 ./utilities/fsl_debug_console.o
  .debug_info    0x00000e16      0x4eb ./startup/startup_mkl25z4.o
  .debug_info    0x00001301      0x313 ./source/Touch.o
@@ -2643,18 +2648,18 @@ LOAD linker stubs
  .debug_info    0x000021ea      0x531 ./source/i2c.o
  .debug_info    0x0000271b      0x2d1 ./source/line_accumulator.o
  .debug_info    0x000029ec       0x8d ./source/main.o
- .debug_info    0x00002a79      0x1da ./source/mma.o
- .debug_info    0x00002c53       0x53 ./source/mtb.o
- .debug_info    0x00002ca6      0x407 ./source/pwm_LED.o
- .debug_info    0x000030ad       0x3c ./source/semihost_hardfault.o
- .debug_info    0x000030e9      0x1ea ./source/statemachine.o
- .debug_info    0x000032d3      0x787 ./source/switch.o
- .debug_info    0x00003a5a      0x1e1 ./source/sysclock.o
- .debug_info    0x00003c3b      0x536 ./source/test.o
- .debug_info    0x00004171      0x3e8 ./drivers/fsl_common.o
- .debug_info    0x00004559     0x140d ./drivers/fsl_lpsci.o
- .debug_info    0x00005966     0x13ae ./drivers/fsl_uart.o
- .debug_info    0x00006d14      0x401 ./CMSIS/system_MKL25Z4.o
+ .debug_info    0x00002a79      0x212 ./source/mma.o
+ .debug_info    0x00002c8b       0x53 ./source/mtb.o
+ .debug_info    0x00002cde      0x407 ./source/pwm_LED.o
+ .debug_info    0x000030e5       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x00003121      0x1ea ./source/statemachine.o
+ .debug_info    0x0000330b      0x787 ./source/switch.o
+ .debug_info    0x00003a92      0x1e1 ./source/sysclock.o
+ .debug_info    0x00003c73      0x536 ./source/test.o
+ .debug_info    0x000041a9      0x3e8 ./drivers/fsl_common.o
+ .debug_info    0x00004591     0x140d ./drivers/fsl_lpsci.o
+ .debug_info    0x0000599e     0x13ae ./drivers/fsl_uart.o
+ .debug_info    0x00006d4c      0x401 ./CMSIS/system_MKL25Z4.o
 
 .debug_abbrev   0x00000000     0x1d19
  .debug_abbrev  0x00000000      0x2a5 ./utilities/fsl_debug_console.o
@@ -2678,7 +2683,7 @@ LOAD linker stubs
  .debug_abbrev  0x000018fa      0x2f1 ./drivers/fsl_uart.o
  .debug_abbrev  0x00001beb      0x12e ./CMSIS/system_MKL25Z4.o
 
-.debug_aranges  0x00000000      0x788
+.debug_aranges  0x00000000      0x790
  .debug_aranges
                 0x00000000       0x90 ./utilities/fsl_debug_console.o
  .debug_aranges
@@ -2696,31 +2701,31 @@ LOAD linker stubs
  .debug_aranges
                 0x00000340       0x20 ./source/main.o
  .debug_aranges
-                0x00000360       0x38 ./source/mma.o
+                0x00000360       0x40 ./source/mma.o
  .debug_aranges
-                0x00000398       0x18 ./source/mtb.o
+                0x000003a0       0x18 ./source/mtb.o
  .debug_aranges
-                0x000003b0       0x30 ./source/pwm_LED.o
+                0x000003b8       0x30 ./source/pwm_LED.o
  .debug_aranges
-                0x000003e0       0x20 ./source/semihost_hardfault.o
+                0x000003e8       0x20 ./source/semihost_hardfault.o
  .debug_aranges
-                0x00000400       0x40 ./source/statemachine.o
+                0x00000408       0x40 ./source/statemachine.o
  .debug_aranges
-                0x00000440       0x40 ./source/switch.o
+                0x00000448       0x40 ./source/switch.o
  .debug_aranges
-                0x00000480       0x28 ./source/sysclock.o
+                0x00000488       0x28 ./source/sysclock.o
  .debug_aranges
-                0x000004a8       0x38 ./source/test.o
+                0x000004b0       0x38 ./source/test.o
  .debug_aranges
-                0x000004e0       0x38 ./drivers/fsl_common.o
+                0x000004e8       0x38 ./drivers/fsl_common.o
  .debug_aranges
-                0x00000518      0x118 ./drivers/fsl_lpsci.o
+                0x00000520      0x118 ./drivers/fsl_lpsci.o
  .debug_aranges
-                0x00000630      0x130 ./drivers/fsl_uart.o
+                0x00000638      0x130 ./drivers/fsl_uart.o
  .debug_aranges
-                0x00000760       0x28 ./CMSIS/system_MKL25Z4.o
+                0x00000768       0x28 ./CMSIS/system_MKL25Z4.o
 
-.debug_ranges   0x00000000      0x640
+.debug_ranges   0x00000000      0x648
  .debug_ranges  0x00000000       0x80 ./utilities/fsl_debug_console.o
  .debug_ranges  0x00000080      0x150 ./startup/startup_mkl25z4.o
  .debug_ranges  0x000001d0       0x18 ./source/Touch.o
@@ -2729,17 +2734,17 @@ LOAD linker stubs
  .debug_ranges  0x00000270       0x48 ./source/i2c.o
  .debug_ranges  0x000002b8       0x18 ./source/line_accumulator.o
  .debug_ranges  0x000002d0       0x10 ./source/main.o
- .debug_ranges  0x000002e0       0x28 ./source/mma.o
- .debug_ranges  0x00000308       0x20 ./source/pwm_LED.o
- .debug_ranges  0x00000328       0x10 ./source/semihost_hardfault.o
- .debug_ranges  0x00000338       0x30 ./source/statemachine.o
- .debug_ranges  0x00000368       0x30 ./source/switch.o
- .debug_ranges  0x00000398       0x18 ./source/sysclock.o
- .debug_ranges  0x000003b0       0x28 ./source/test.o
- .debug_ranges  0x000003d8       0x28 ./drivers/fsl_common.o
- .debug_ranges  0x00000400      0x108 ./drivers/fsl_lpsci.o
- .debug_ranges  0x00000508      0x120 ./drivers/fsl_uart.o
- .debug_ranges  0x00000628       0x18 ./CMSIS/system_MKL25Z4.o
+ .debug_ranges  0x000002e0       0x30 ./source/mma.o
+ .debug_ranges  0x00000310       0x20 ./source/pwm_LED.o
+ .debug_ranges  0x00000330       0x10 ./source/semihost_hardfault.o
+ .debug_ranges  0x00000340       0x30 ./source/statemachine.o
+ .debug_ranges  0x00000370       0x30 ./source/switch.o
+ .debug_ranges  0x000003a0       0x18 ./source/sysclock.o
+ .debug_ranges  0x000003b8       0x28 ./source/test.o
+ .debug_ranges  0x000003e0       0x28 ./drivers/fsl_common.o
+ .debug_ranges  0x00000408      0x108 ./drivers/fsl_lpsci.o
+ .debug_ranges  0x00000510      0x120 ./drivers/fsl_uart.o
+ .debug_ranges  0x00000630       0x18 ./CMSIS/system_MKL25Z4.o
 
 .debug_macro    0x00000000     0xe426
  .debug_macro   0x00000000      0x127 ./utilities/fsl_debug_console.o
@@ -2802,7 +2807,7 @@ LOAD linker stubs
  .debug_macro   0x0000e2a0       0xf2 ./drivers/fsl_uart.o
  .debug_macro   0x0000e392       0x94 ./CMSIS/system_MKL25Z4.o
 
-.debug_line     0x00000000     0x6084
+.debug_line     0x00000000     0x60d6
  .debug_line    0x00000000      0xc57 ./utilities/fsl_debug_console.o
  .debug_line    0x00000c57      0x1ed ./startup/startup_mkl25z4.o
  .debug_line    0x00000e44      0x263 ./source/Touch.o
@@ -2811,20 +2816,20 @@ LOAD linker stubs
  .debug_line    0x00001922      0x3b2 ./source/i2c.o
  .debug_line    0x00001cd4      0x25f ./source/line_accumulator.o
  .debug_line    0x00001f33      0x2e8 ./source/main.o
- .debug_line    0x0000221b      0x3be ./source/mma.o
- .debug_line    0x000025d9       0xd1 ./source/mtb.o
- .debug_line    0x000026aa      0x404 ./source/pwm_LED.o
- .debug_line    0x00002aae       0x59 ./source/semihost_hardfault.o
- .debug_line    0x00002b07      0x461 ./source/statemachine.o
- .debug_line    0x00002f68      0x339 ./source/switch.o
- .debug_line    0x000032a1      0x288 ./source/sysclock.o
- .debug_line    0x00003529      0x9a3 ./source/test.o
- .debug_line    0x00003ecc      0x3e4 ./drivers/fsl_common.o
- .debug_line    0x000042b0      0xd59 ./drivers/fsl_lpsci.o
- .debug_line    0x00005009      0xd48 ./drivers/fsl_uart.o
- .debug_line    0x00005d51      0x333 ./CMSIS/system_MKL25Z4.o
+ .debug_line    0x0000221b      0x410 ./source/mma.o
+ .debug_line    0x0000262b       0xd1 ./source/mtb.o
+ .debug_line    0x000026fc      0x404 ./source/pwm_LED.o
+ .debug_line    0x00002b00       0x59 ./source/semihost_hardfault.o
+ .debug_line    0x00002b59      0x461 ./source/statemachine.o
+ .debug_line    0x00002fba      0x339 ./source/switch.o
+ .debug_line    0x000032f3      0x288 ./source/sysclock.o
+ .debug_line    0x0000357b      0x9a3 ./source/test.o
+ .debug_line    0x00003f1e      0x3e4 ./drivers/fsl_common.o
+ .debug_line    0x00004302      0xd59 ./drivers/fsl_lpsci.o
+ .debug_line    0x0000505b      0xd48 ./drivers/fsl_uart.o
+ .debug_line    0x00005da3      0x333 ./CMSIS/system_MKL25Z4.o
 
-.debug_str      0x00000000    0x34aa8
+.debug_str      0x00000000    0x34ac5
  .debug_str     0x00000000    0x31377 ./utilities/fsl_debug_console.o
                               0x3161b (size before relaxing)
  .debug_str     0x00031377      0x3cd ./startup/startup_mkl25z4.o
@@ -2841,29 +2846,29 @@ LOAD linker stubs
                                0x48e1 (size before relaxing)
  .debug_str     0x000322d0       0x31 ./source/main.o
                               0x2906d (size before relaxing)
- .debug_str     0x00032301       0xfa ./source/mma.o
-                              0x2954e (size before relaxing)
- .debug_str     0x000323fb      0x532 ./source/mtb.o
+ .debug_str     0x00032301      0x117 ./source/mma.o
+                              0x2956b (size before relaxing)
+ .debug_str     0x00032418      0x532 ./source/mtb.o
                                0x31d9 (size before relaxing)
- .debug_str     0x0003292d      0xa9b ./source/pwm_LED.o
+ .debug_str     0x0003294a      0xa9b ./source/pwm_LED.o
                               0x312bc (size before relaxing)
- .debug_str     0x000333c8       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x000333e5       0x1f ./source/semihost_hardfault.o
                                0x2cc6 (size before relaxing)
- .debug_str     0x000333e7      0x10c ./source/statemachine.o
+ .debug_str     0x00033404      0x10c ./source/statemachine.o
                               0x29197 (size before relaxing)
- .debug_str     0x000334f3       0x81 ./source/switch.o
+ .debug_str     0x00033510       0x81 ./source/switch.o
                               0x29037 (size before relaxing)
- .debug_str     0x00033574       0x68 ./source/sysclock.o
+ .debug_str     0x00033591       0x68 ./source/sysclock.o
                               0x29029 (size before relaxing)
- .debug_str     0x000335dc       0x5c ./source/test.o
+ .debug_str     0x000335f9       0x5c ./source/test.o
                               0x29119 (size before relaxing)
- .debug_str     0x00033638       0xe1 ./drivers/fsl_common.o
+ .debug_str     0x00033655       0xe1 ./drivers/fsl_common.o
                               0x3075c (size before relaxing)
- .debug_str     0x00033719      0xafe ./drivers/fsl_lpsci.o
+ .debug_str     0x00033736      0xafe ./drivers/fsl_lpsci.o
                               0x3177d (size before relaxing)
- .debug_str     0x00034217      0x832 ./drivers/fsl_uart.o
+ .debug_str     0x00034234      0x832 ./drivers/fsl_uart.o
                               0x317a0 (size before relaxing)
- .debug_str     0x00034a49       0x5f ./CMSIS/system_MKL25Z4.o
+ .debug_str     0x00034a66       0x5f ./CMSIS/system_MKL25Z4.o
                               0x2fb08 (size before relaxing)
 
 .comment        0x00000000       0x49
@@ -3065,7 +3070,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x00000adc       0x2c c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_tmpnam.o)
 
-.debug_frame    0x00000000     0x1614
+.debug_frame    0x00000000     0x1634
  .debug_frame   0x00000000      0x1f0 ./utilities/fsl_debug_console.o
  .debug_frame   0x000001f0      0x3b0 ./startup/startup_mkl25z4.o
  .debug_frame   0x000005a0       0x4c ./source/Touch.o
@@ -3074,17 +3079,17 @@ LOAD linker stubs
  .debug_frame   0x000007f8      0x104 ./source/i2c.o
  .debug_frame   0x000008fc       0x58 ./source/line_accumulator.o
  .debug_frame   0x00000954       0x2c ./source/main.o
- .debug_frame   0x00000980       0x8c ./source/mma.o
- .debug_frame   0x00000a0c       0x6c ./source/pwm_LED.o
- .debug_frame   0x00000a78       0x20 ./source/semihost_hardfault.o
- .debug_frame   0x00000a98       0xa0 ./source/statemachine.o
- .debug_frame   0x00000b38       0xa8 ./source/switch.o
- .debug_frame   0x00000be0       0x4c ./source/sysclock.o
- .debug_frame   0x00000c2c       0x94 ./source/test.o
- .debug_frame   0x00000cc0       0x90 ./drivers/fsl_common.o
- .debug_frame   0x00000d50      0x414 ./drivers/fsl_lpsci.o
- .debug_frame   0x00001164      0x464 ./drivers/fsl_uart.o
- .debug_frame   0x000015c8       0x4c ./CMSIS/system_MKL25Z4.o
+ .debug_frame   0x00000980       0xac ./source/mma.o
+ .debug_frame   0x00000a2c       0x6c ./source/pwm_LED.o
+ .debug_frame   0x00000a98       0x20 ./source/semihost_hardfault.o
+ .debug_frame   0x00000ab8       0xa0 ./source/statemachine.o
+ .debug_frame   0x00000b58       0xa8 ./source/switch.o
+ .debug_frame   0x00000c00       0x4c ./source/sysclock.o
+ .debug_frame   0x00000c4c       0x94 ./source/test.o
+ .debug_frame   0x00000ce0       0x90 ./drivers/fsl_common.o
+ .debug_frame   0x00000d70      0x414 ./drivers/fsl_lpsci.o
+ .debug_frame   0x00001184      0x464 ./drivers/fsl_uart.o
+ .debug_frame   0x000015e8       0x4c ./CMSIS/system_MKL25Z4.o
 
 Cross Reference Table
 
@@ -3586,6 +3591,7 @@ _ncc_vfscanf                                      c:/nxp/mcuxpressoide_11.6.0_81
 _printf                                           c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
                                                   ./source/test.o
                                                   ./source/statemachine.o
+                                                  ./source/mma.o
                                                   ./source/line_accumulator.o
 _printf_char                                      c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
 _pvHeapLimit                                      c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_cr_check_heap.o)
@@ -3789,6 +3795,7 @@ strtol                                            c:/nxp/mcuxpressoide_11.6.0_81
 strtoul                                           c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(scanf.o)
 sysclock_init                                     ./source/sysclock.o
                                                   ./source/statemachine.o
+test_MMA                                          ./source/mma.o
 test_TSI                                          ./source/test.o
 test_cbfifo                                       ./source/test.o
                                                   ./source/statemachine.o
@@ -3798,6 +3805,7 @@ test_flag                                         ./source/statemachine.o
                                                   ./source/test.o
 test_leds                                         ./source/test.o
                                                   ./source/statemachine.o
+tilt                                              ./source/mma.o
 tolower                                           c:/nxp/mcuxpressoide_11.6.0_8187/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.6.0.202112161359/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(ctype.o)
 touch_cal                                         ./source/statemachine.o
 touch_flag                                        ./source/statemachine.o

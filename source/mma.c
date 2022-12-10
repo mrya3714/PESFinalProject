@@ -117,6 +117,7 @@ void read(void)
  * @parameters	: none
  * @return		: angle tilted
  *************************************************/
+int tilt = 0;
 float convert_xyz_to_roll_pitch(void)
 {
 	float ax = acc_X/COUNTS_PER_G,ay = acc_Y/COUNTS_PER_G, az = acc_Z/COUNTS_PER_G;
@@ -126,8 +127,46 @@ float convert_xyz_to_roll_pitch(void)
 	pitch = atan2(ax, sqrt(ay*ay + az*az))*180/M_PI;
 
 	tilt_angle = acos((az) / (sqrt((ax * ax) + (ay * ay) + (az * az)))) * 180/M_PI;
+	//tilt_angle = tilt;
 	return tilt_angle;
 
 }
 
+/*************************************************
+ * @function	: function to test accelerometer
+ * @parameters	: none
+ * @return		: none
+ *************************************************/
+void test_MMA()
+{
+	int test_mma_count = 0;
+	printf("Place accelerometer horizontal to the surface");
+	if(tilt == 0)
+	{
+	 test_mma_count = 1;
+	}
+	  printf("Place accelerometer 30 degress to the surface");
+	if(tilt == 30)
+	{
+	 test_mma_count = 2;
+	}
+	  printf("Place accelerometer 90 degress to the surface");
+	if(tilt == 90)
+	{
+	 test_mma_count = 3;
+	}
+	  printf("Place accelerometer 180 degress to the surface");
+	if(tilt == 180)
+	{
+	test_mma_count = 4;
+	}
+	if(test_mma_count == 4)
+	{
+	  printf("Accelerometer testing successful");
+	}
+	else
+	{
+	  printf("Accelerometer testing failed");
+	}
+}
 /*********************************************end*******************************************************************/

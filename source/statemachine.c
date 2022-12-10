@@ -77,7 +77,7 @@ void state_machine()
       set_led_colour(1, 0, 0);               //yellow led
     }
     break;
-/*NOTE : These are automated test cases fucntions, manual test cases functions are included in test.c*/
+/*NOTE : These are automated test cases fucntions, manual test cases functions are included in test.c and mma.c*/
     case Testing:
     test_cbfifo();                          //test cbfifos
     test_cbfifo_str();

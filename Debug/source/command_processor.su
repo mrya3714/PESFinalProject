@@ -1,0 +1,4 @@
+../source/command_processor.c:56:6:command_processor	88	static
+../source/command_processor.c:118:13:handle_Author	16	static
+../source/command_processor.c:124:13:handle_Help	16	static
+../source/command_processor.c:132:13:handle_Info	16	static

@@ -1,0 +1,2 @@
+../source/sysclock.c:22:6:sysclock_init	8	static
+../source/sysclock.c:50:6:delay	24	static

@@ -72,3 +72,4 @@ STATE DIAGRAM API FLOW:
 
 <img width="787" alt="image" src="https://user-images.githubusercontent.com/112549892/206835165-e80ea0fe-2563-4551-90a4-d61ee2b95b06.png">
 
+Challenges : UART and acclerometer interfacing and calibration. Solution : added delay for visibility on terminal

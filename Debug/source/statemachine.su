@@ -1,5 +1,5 @@
-../source/statemachine.c:51:6:state_machine	8	static
-../source/statemachine.c:114:6:init	8	static
-../source/statemachine.c:135:6:touch_cal	16	static
-../source/statemachine.c:157:6:calculate	8	static
-../source/statemachine.c:187:6:output	8	static
+../source/statemachine.c:55:6:state_machine	8	static
+../source/statemachine.c:130:6:init	8	static
+../source/statemachine.c:148:6:touch_cal	16	static
+../source/statemachine.c:170:6:calculate	8	static
+../source/statemachine.c:200:6:output	8	static

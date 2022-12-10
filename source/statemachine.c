@@ -36,6 +36,7 @@
 typedef enum
 {
 	Initialization,
+	Testing,
 	Zero_calibration,
     I2C_Read,
     User_input,
@@ -44,27 +45,42 @@ typedef enum
 }lua_states;
 
 int count = 0;
-int init_flag = 0;
+int init_flag = 0;                       //initialization flag
+int test_flag = 0;                       //testing flag
+
 volatile lua_states next_state = Initialization;
 lua_states current_state;
 extern int flag1;
+
 void state_machine()
 {
  while(1)
  {
    switch(next_state)
    {
-   case Initialization :
-       current_state = Initialization;
-       init();
-       if(init_flag == 1||init_flag == 3)
-       {
-       init();
-       printf("Principle of Embedded Software Final Project Submission\r\n\n");
-       printf("Please touch the sensor for calibration\r\n\n");
-       next_state = Zero_calibration;
-       }
-       break;
+    case Initialization :
+    current_state = Initialization;
+    init();
+    if(init_flag == 1||init_flag == 3)
+      {
+      printf("Principle of Embedded Software Final Project Submission\r\n\n");
+      set_led_colour(1, 1, 0);
+      delay(1000);
+      set_led_colour(0, 0, 0);
+      next_state =Testing;
+      }
+    break;
+
+    case Testing:
+    test_cbfifo();
+    test_cbfifo_str();
+    if(test_flag == 2)
+    {
+    printf("Please touch the sensor for calibration\r\n\n");
+    current_state = Testing;
+    next_state = Zero_calibration;
+    }
+    break;
 
     case Zero_calibration :
     current_state = Zero_calibration;
@@ -124,9 +140,6 @@ void init()
 	while (1)								            //not able to initialize mma
 	;
 	 }
-	set_led_colour(1, 1, 0);
-    delay(1000);
-	set_led_colour(0, 0, 0);
 	init_flag = 1;
 }
 

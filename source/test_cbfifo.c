@@ -1,10 +1,16 @@
-#include<stdio.h>
-#include<stdint.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <string.h>
+#include <stdbool.h>
 #include "test_cbfifo.h"
 #include "cbfifo.h"
 
+extern test_flag;
+/*************************************************
+ * @function	: function to test cbfifo datatype other than str
+ *************************************************/
 int test_cbfifo()
 {
 int count=0;      //counter to keep track of the passed test cases
@@ -128,10 +134,246 @@ int count=0;      //counter to keep track of the passed test cases
    {
     printf("throw error\n");
    }
-   printf("Total Test conditions passed: %d \r\n", count);
-
-
-
+   printf("\nTotal Test conditions passed for long double data type: %d \r\n", count);
+   test_flag = 1;
    return 0;
 
 }
+
+
+cbfifo txb;				//transmit buffer
+cbfifo rxb;             //receive buffer
+
+/*************************************************
+ * @function	: function to test cbfifo
+ *
+ * @parameters	: none
+ * @return		: 1 on success 0 on failure
+ *************************************************/
+
+bool test_cbfifo_str()
+{
+	char *str ="To be, or not to be: that is the question:\n"
+    "Whether 'tis nobler in the mind to suffer\n"
+    "The slings and arrows of outrageous fortune,\n"
+    "Or to take arms against a sea of troubles,\n"
+    "And by opposing end them? To die, to sleep--\n"
+    "No more--and by a sleep to say we end\n"
+    "The heart-ache and the thousand natural shocks\n"
+    "That flesh is heir to, 'tis a consummation\n"
+    "Devoutly to be wish'd. To die, to sleep;\n"
+    "To sleep: perchance to dream: ay, there's the rub;\n"
+    "For in that sleep of death what dreams may come\n"
+    "When we have shuffled off this mortal coil,\n"
+    "Must give us pause.";
+
+  char buf[1024];                                        //transmit buffer
+  char buf1[1024];                                       //receiver buffer
+  const int cap = cbfifo_capacity();
+
+/***************************************validate test****************************************************/
+  assert(strlen(str) >= cap*2);
+  assert(sizeof(buf) > cap);
+
+  assert(strlen(str) >= cap*2);
+  assert(sizeof(buf1) > cap);
+
+
+/***************************************write zero bytes***********************************************/
+  assert(cbfifo_enqueue(&txb,str, 0) == 0);
+  assert(cbfifo_length(&txb) == 0);
+
+  assert(cbfifo_length(&txb) == 0);
+  assert(cbfifo_dequeue(&txb,buf, cap) == 0);
+  assert(cbfifo_dequeue(&txb,buf, 1) == 0);
+
+  assert(cbfifo_enqueue(&rxb,str, 0) == 0);
+  assert(cbfifo_length(&rxb) == 0);
+
+  assert(cbfifo_length(&rxb) == 0);
+  assert(cbfifo_dequeue(&rxb,buf1, cap) == 0);
+  assert(cbfifo_dequeue(&rxb,buf1, 1) == 0);
+
+/****************************************checking transmit buffer****************************************/
+
+/****************************Enqueue 30 bytes;  Dequeue 10, then another 30*****************************/
+  assert(cbfifo_enqueue(&txb,str, 30) == 30);
+  assert(cbfifo_length(&txb) == 30);
+  assert(cbfifo_dequeue(&txb,buf, 10) == 10);
+  assert(cbfifo_length(&txb) == 20);
+  assert(cbfifo_dequeue(&txb,buf+10, 30) == 20);
+  assert(cbfifo_length(&txb) == 0);
+  assert(strncmp(buf, str, 30) == 0);
+
+/**********************************Enqueue 30 bytes, then Dequeue same amt*******************************/
+  assert(cbfifo_enqueue(&txb,str, 30) == 30);
+  assert(cbfifo_length(&txb) == 30);
+  assert(cbfifo_dequeue(&txb, buf, 30) == 30);
+  assert(strncmp(buf, str, 30) == 0);
+  assert(cbfifo_length(&txb) == 0);
+
+/****************************** Add 20 bytes and pull out 18*******************************************/
+  assert(cbfifo_enqueue(&txb,str, 20) == 20);
+  assert(cbfifo_length(&txb) == 20);
+  assert(cbfifo_dequeue(&txb,buf, 18) == 18);
+  assert(cbfifo_length(&txb) == 2);
+  assert(strncmp(buf, str, 18) == 0);
+
+/***************************** Now add a bunch of data in 4 chunks************************************/
+  int chunk_size = (cap-2) / 4;
+  for (int i=0; i<4; i++)
+  {
+    assert(cbfifo_enqueue(&txb,str+i*chunk_size, chunk_size) == chunk_size);
+    assert(cbfifo_length(&txb) == (i+1)*chunk_size + 2);
+  }
+  assert(cbfifo_length(&txb) == 4*chunk_size + 2);
+
+/****************************** Take out the 2 remaining bytes from above***********************************/
+  assert(cbfifo_dequeue(&txb,buf, 2) == 2);
+  assert(strncmp(buf, str+18, 2) == 0);
+
+/****************************** now read those chunks out a byte at a time*********************************/
+  for (int i=0; i<chunk_size*4; i++)
+  {
+    assert(cbfifo_dequeue(&txb,buf+i, 1) == 1);
+    assert(cbfifo_length(&txb) == chunk_size*4 - i - 1);
+  }
+  assert(strncmp(buf, str, chunk_size*4) == 0);
+
+/*************************************  Enqueue when read < write:*******************************************
+*1.   bytes < CAP-write  (1)
+ 2.   bytes exactly CAP-write  (2)
+ 3.   bytes > CAP-write but < space available (3)
+ 4.   bytes exactly the space available (4)
+ 5.   bytes > space available (5)
+***********************************************************************************************************/
+  assert(cbfifo_enqueue(&txb,str, 32) == 32);
+  assert(cbfifo_length(&txb) == 32);
+  assert(cbfifo_dequeue(&txb,buf, 16) == 16);
+  assert(cbfifo_length(&txb) == 16);
+  assert(strncmp(buf, str, 16) == 0);
+
+  assert(cbfifo_enqueue(&txb,str+32, 32) == 32);  // (1)
+  assert(cbfifo_length(&txb) == 48);
+  assert(cbfifo_enqueue(&txb,str+64, cap-64) == cap-64);  // (2)
+  assert(cbfifo_length(&txb) == cap-16);
+  assert(cbfifo_dequeue(&txb,buf+16, cap-16) == cap-16);
+  assert(strncmp(buf, str, cap) == 0);
+
+  assert(cbfifo_enqueue(&txb,str, 32) == 32);  // advance so that read < write
+  assert(cbfifo_length(&txb) == 32);
+  assert(cbfifo_dequeue(&txb,buf, 16) == 16);
+  assert(cbfifo_length(&txb) == 16);
+  assert(strncmp(buf, str, 16) == 0);
+
+  assert(cbfifo_enqueue(&txb,str+32, cap-20) == cap-20);  // (3)
+  assert(cbfifo_length(&txb) == cap-4);
+  assert(cbfifo_dequeue(&txb,buf, cap-8) == cap-8);
+  assert(strncmp(buf, str+16, cap-8) == 0);
+  assert(cbfifo_length(&txb) == 4);
+  assert(cbfifo_dequeue(&txb,buf, 8) == 4);
+  assert(strncmp(buf, str+16+cap-8, 4) == 0);
+  assert(cbfifo_length(&txb) == 0);
+
+  assert(cbfifo_enqueue(&txb,str, 49) == 49);  // advance so that read < write
+  assert(cbfifo_length(&txb) == 49);
+  assert(cbfifo_dequeue(&txb,buf, 16) == 16);
+  assert(cbfifo_length(&txb) == 33);
+  assert(strncmp(buf, str, 16) == 0);
+
+/*********************************************Checking Receive Buffer*********************************************/
+
+/***************************************write zero bytes***********************************************/
+  assert(cbfifo_length(&rxb) == 0);
+  assert(cbfifo_dequeue(&rxb,buf1, cap) == 0);
+  assert(cbfifo_dequeue(&rxb,buf1, 1) == 0);
+
+/****************************Enqueue 30 bytes;  Dequeue 10, then another 30*****************************/
+  assert(cbfifo_enqueue(&rxb,str, 30) == 30);
+  assert(cbfifo_length(&rxb) == 30);
+  assert(cbfifo_dequeue(&rxb,buf1, 10) == 10);
+  assert(cbfifo_length(&rxb) == 20);
+  assert(cbfifo_dequeue(&rxb,buf1+10, 30) == 20);
+  assert(cbfifo_length(&rxb) == 0);
+  assert(strncmp(buf1, str, 30) == 0);
+
+/**********************************Enqueue 30 bytes, then Dequeue same amt*******************************/
+  assert(cbfifo_enqueue(&rxb,str, 30) == 30);
+  assert(cbfifo_length(&rxb) == 30);
+  assert(cbfifo_dequeue(&rxb, buf1, 30) == 30);
+  assert(strncmp(buf1, str, 30) == 0);
+  assert(cbfifo_length(&rxb) == 0);
+
+/****************************** Add 20 bytes and pull out 18*******************************************/
+  assert(cbfifo_enqueue(&rxb,str, 20) == 20);
+  assert(cbfifo_length(&rxb) == 20);
+  assert(cbfifo_dequeue(&rxb,buf1, 18) == 18);
+  assert(cbfifo_length(&rxb) == 2);
+  assert(strncmp(buf1, str, 18) == 0);
+
+/***************************** Now add a bunch of data in 4 chunks************************************/
+  chunk_size = (cap-2) / 4;
+  for (int i=0; i<4; i++)
+  {
+    assert(cbfifo_enqueue(&rxb,str+i*chunk_size, chunk_size) == chunk_size);
+    assert(cbfifo_length(&rxb) == (i+1)*chunk_size + 2);
+  }
+  assert(cbfifo_length(&rxb) == 4*chunk_size + 2);
+
+/****************************** Take out the 2 remaining bytes from above***********************************/
+  assert(cbfifo_dequeue(&rxb,buf1, 2) == 2);
+  assert(strncmp(buf1, str+18, 2) == 0);
+
+/****************************** now read those chunks out a byte at a time*********************************/
+  for (int i=0; i<chunk_size*4; i++) {
+    assert(cbfifo_dequeue(&rxb,buf1+i, 1) == 1);
+    assert(cbfifo_length(&rxb) == chunk_size*4 - i - 1);
+  }
+  assert(strncmp(buf1, str, chunk_size*4) == 0);
+
+/*************************************  Enqueue when read < write:*******************************************
+  *1.   bytes < CAP-write  (1)
+   2.   bytes exactly CAP-write  (2)
+   3.   bytes > CAP-write but < space available (3)
+   4.   bytes exactly the space available (4)
+   5.   bytes > space available (5)
+***********************************************************************************************************/
+  assert(cbfifo_enqueue(&rxb,str, 32) == 32);  // advance so that read < write
+  assert(cbfifo_length(&rxb) == 32);
+  assert(cbfifo_dequeue(&rxb,buf1, 16) == 16);
+  assert(cbfifo_length(&rxb) == 16);
+  assert(strncmp(buf1, str, 16) == 0);
+
+  assert(cbfifo_enqueue(&rxb,str+32, 32) == 32);  // (1)
+  assert(cbfifo_length(&rxb) == 48);
+  assert(cbfifo_enqueue(&rxb,str+64, cap-64) == cap-64);  // (2)
+  assert(cbfifo_length(&rxb) == cap-16);
+  assert(cbfifo_dequeue(&rxb,buf1+16, cap-16) == cap-16);
+  assert(strncmp(buf1, str, cap) == 0);
+
+  assert(cbfifo_enqueue(&rxb,str, 32) == 32);  // advance so that read < write
+  assert(cbfifo_length(&rxb) == 32);
+  assert(cbfifo_dequeue(&rxb,buf1, 16) == 16);
+  assert(cbfifo_length(&rxb) == 16);
+  assert(strncmp(buf1, str, 16) == 0);
+
+  assert(cbfifo_enqueue(&rxb,str+32, cap-20) == cap-20);  // (3)
+  assert(cbfifo_length(&rxb) == cap-4);
+  assert(cbfifo_dequeue(&rxb,buf1, cap-8) == cap-8);
+  assert(strncmp(buf1, str+16, cap-8) == 0);
+  assert(cbfifo_length(&rxb) == 4);
+  assert(cbfifo_dequeue(&rxb,buf1, 8) == 4);
+  assert(strncmp(buf1, str+16+cap-8, 4) == 0);
+  assert(cbfifo_length(&rxb) == 0);
+
+  assert(cbfifo_enqueue(&rxb,str, 49) == 49);  // advance so that read < write
+  assert(cbfifo_length(&rxb) == 49);
+  assert(cbfifo_dequeue(&rxb,buf1, 16) == 16);
+  assert(cbfifo_length(&rxb) == 33);
+  assert(strncmp(buf1, str, 16) == 0);
+
+  printf("Passed all the test cases for CBFIFO\n\n\n\r");
+  test_flag = 2;
+  return 1;
+}
+

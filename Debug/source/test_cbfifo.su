@@ -1,1 +1,2 @@
-../source/test_cbfifo.c:8:5:test_cbfifo	544	static
+../source/test_cbfifo.c:14:5:test_cbfifo	544	static
+../source/test_cbfifo.c:154:6:test_cbfifo_str	2096	static
